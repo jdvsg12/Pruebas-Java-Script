@@ -1,52 +1,83 @@
-//-------------- ACTIVIDAD 1 --------------//
+const cardsContainer = document.getElementById("cardsContainer");
+const bandsFromLocalStorage = JSON.parse(localStorage.getItem("Bands"));
+let bands = [] || bandsFromLocalStorage;
 
-const bands = []
+addListeners();
 
-class band {
-    constructor({ name, category, autor, price, year }) {
-        this.name = name;
-        this.category = category;
-        this.autor = autor;
-        this.price = price;
-        this.year = year;
-    }
+function handleAddBandButtonClick() {
+  // Improvements, get all the values from the form instead of get every input in the from
+  const inputName = document.getElementById("name");
+  const inputCategory = document.getElementById("category");
+  const inputAuthor = document.getElementById("author");
+  const inputPrice = document.getElementById("price");
+  const inputYear = document.getElementById("year");
+  const bandInformation = {
+    name: inputName.value,
+    category: inputCategory.value,
+    author: inputAuthor.value,
+    price: inputPrice.value,
+    year: inputYear.value,
+  };
+
+  bands.push(bandInformation);
+  localStorage.setItem("Bands", JSON.stringify(bands));
+  showBands();
 }
 
+function showBands() {
+  const allCards = bands.reduce(
+    (finalCards, { name, category, author, price, year }) => {
+      finalCards += `
+				<div id="cardContainer">
+						<P>${name}</p>
+						<p>${category}</p>
+						<p>${author}</p>
+						<p>$ ${price}</p>
+						<p>${year}</p>
+				<div />
+		`;
 
-const formulario = document.createElement("form");
-formulario.innerHTML = `<legend>Agrega una banda</legend>
-                        <input type="text" placeholder="Name">
-                        <input type="text" placeholder="Category">
-                        <input type="text" placeholder="autor">
-                        <input type="text" placeholder="price">
-                        <input type="text" placeholder="year">
-                        <input type="submit">`;
+      return finalCards;
+    },
+    ""
+  );
 
-
-formulario.onsubmit = (e) => {
-    e.preventDefault();
-    const inputs = [...e.target.children];
-    bands.push(new band({ name: inputs[1].value, category: inputs[2].value, autor: inputs[3].value, price: inputs[4].value, year: inputs[5].value }));
-    showBands(bands);
-    // console.log(bands);
+  cardsContainer.innerHTML = allCards;
 }
 
-function showBands(bands) {
-    salida.innerHTML = '';
-    for (const band of bands) {
-        let divBand = document.createElement("content");
-        divBand.innerHTML = `   <div class="content">
-                                <P>${band.name}</P>
-                                <p>${band.category}</p>
-                                <p>${band.autor}</p>
-                                <p>$ ${band.price}</p>
-                                <p>${band.year}</p>
-                                <hr />
-                                </div>`
-
-        salida.appendChild(divBand);
-    }
+function handleDeleteBandButtonClick() {
+  localStorage.clear("Bands");
+  cardsContainer.innerHTML = "";
 }
-const salida = document.createElement("content");
-document.body.append(formulario);
-document.body.appendChild(salida);
+
+function addListeners() {
+  const buttonAdd = document.getElementById("add");
+  const buttonDelete = document.getElementById("clear");
+
+  buttonAdd.addEventListener("click", handleAddBandButtonClick);
+  buttonDelete.addEventListener("click", handleDeleteBandButtonClick);
+}
+
+// Filtrar objetos
+// const inputFilter = document.getElementById('filter')
+
+// inputFilter.addEventListener('input',() => {
+
+//     const objFilter = inputFilter.value;
+
+//     const bandsFilter = bands.filter((bands) => {
+
+//         return bands.name.ToLowerCase().includes(objFilter.ToLowerCase());
+//     });
+
+//     console.log(bandsFilter)
+// })
+
+// mostrar producctos
+
+// bandsFilters.forEach((bandsFilter) =>{
+
+//     const p = document.createElement('p');
+
+//     p.innerText = bandsFilter.name
+// })
