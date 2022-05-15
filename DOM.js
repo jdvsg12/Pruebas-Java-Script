@@ -1,6 +1,7 @@
 const cardsContainer = document.getElementById("cardsContainer");
 const bandsFromLocalStorage = JSON.parse(localStorage.getItem("Bands"));
-let bands = [] || bandsFromLocalStorage;
+let bands = bandsFromLocalStorage != null ? bandsFromLocalStorage : [];
+
 
 addListeners();
 
@@ -33,7 +34,7 @@ function showBands() {
 						<p>${category}</p>
 						<p>${author}</p>
 						<p>$ ${price}</p>
-						<p>${year}</p>
+						<p>${year}</p><br>
 				<div />
 		`;
 
@@ -58,7 +59,6 @@ function addListeners() {
   buttonDelete.addEventListener("click", handleDeleteBandButtonClick);
 }
 
-// Filtrar objetos
 // const inputFilter = document.getElementById('filter')
 
 // inputFilter.addEventListener('input',() => {
