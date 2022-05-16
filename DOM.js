@@ -2,7 +2,6 @@ const cardsContainer = document.getElementById("cardsContainer");
 const bandsFromLocalStorage = JSON.parse(localStorage.getItem("Bands"));
 let bands = bandsFromLocalStorage != null ? bandsFromLocalStorage : [];
 
-
 addListeners();
 
 function handleAddBandButtonClick() {
@@ -23,6 +22,8 @@ function handleAddBandButtonClick() {
   bands.push(bandInformation);
   localStorage.setItem("Bands", JSON.stringify(bands));
   showBands();
+  alertAddButton();
+
 }
 
 function showBands() {
@@ -49,6 +50,7 @@ function showBands() {
 function handleDeleteBandButtonClick() {
   localStorage.clear("Bands");
   cardsContainer.innerHTML = "";
+  alerDeleteButton();
 }
 
 function addListeners() {
@@ -59,25 +61,31 @@ function addListeners() {
   buttonDelete.addEventListener("click", handleDeleteBandButtonClick);
 }
 
-// const inputFilter = document.getElementById('filter')
+function alerDeleteButton() {
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  
+  Toast.fire({
+    icon: 'warning',
+    title: 'Se han limpiado las listas'
+  })
+}
 
-// inputFilter.addEventListener('input',() => {
+function alertAddButton() {
+  Swal.fire({
+    icon: "success",
+    title: "agregaste una banda",
+    confirmButtonText: "OK",
+  });
+}
 
-//     const objFilter = inputFilter.value;
 
-//     const bandsFilter = bands.filter((bands) => {
-
-//         return bands.name.ToLowerCase().includes(objFilter.ToLowerCase());
-//     });
-
-//     console.log(bandsFilter)
-// })
-
-// mostrar producctos
-
-// bandsFilters.forEach((bandsFilter) =>{
-
-//     const p = document.createElement('p');
-
-//     p.innerText = bandsFilter.name
-// })
