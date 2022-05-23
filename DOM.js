@@ -2,8 +2,10 @@ const cardsContainer = document.getElementById("cardsContainer");
 const bandsFromLocalStorage = JSON.parse(localStorage.getItem("Bands"));
 let bands = bandsFromLocalStorage != null ? bandsFromLocalStorage : [];
 
-addListeners();
 
+showBands();
+addListeners();
+  
 function handleAddBandButtonClick() {
   // Improvements, get all the values from the form instead of get every input in the from
   const inputName = document.getElementById("name");
@@ -11,6 +13,7 @@ function handleAddBandButtonClick() {
   const inputAuthor = document.getElementById("author");
   const inputPrice = document.getElementById("price");
   const inputYear = document.getElementById("year");
+
   const bandInformation = {
     name: inputName.value,
     category: inputCategory.value,
@@ -21,8 +24,10 @@ function handleAddBandButtonClick() {
 
   bands.push(bandInformation);
   localStorage.setItem("Bands", JSON.stringify(bands));
-  showBands();
+  
   alertAddButton();
+  showBands();
+
 
 }
 
